@@ -1,21 +1,19 @@
 #ifndef WK8LAB_STUDENT_H
 #define WK8LAB_STUDENT_H
 
+#include <string>
 #include <vector>
-#include "../Module/Module.h"
 
 class Student {
 private:
     int id;
-    std::vector<Module> completedModules;
-    std::vector<Module> currentModules;
+    std::vector<std::string> completedCourseCodes;
 
 public:
     Student(int id);
     int getId();
-    void addCompletedCourse(Module);
-    void addCurrentCourse(Module);
-    std::vector<Module> getCompletedModules();
+    void addCompletedCourseCode(std::string);
+    std::vector<std::string> getCompletedCourseCodes();
 };
 
 

@@ -1,14 +1,15 @@
 #include "Module.h"
+#include "algorithm"
 
 Module::Module(std::string courseCode, std::vector<std::string> requisiteCourseCodes, int availableSlots) {
     this->courseCode = courseCode;
     this->requisiteCourseCodes = requisiteCourseCodes;
-    this->availableSlots = availableSlots;
+    this->maxSlots = availableSlots;
 }
 
 Module::Module(std::string courseCode, int availableSlots) {
     this->courseCode = courseCode;
-    this->availableSlots = availableSlots;
+    this->maxSlots = availableSlots;
 }
 
 std::string Module::getCourseCode() {
@@ -19,21 +20,30 @@ std::vector<std::string> Module::getRequisiteCourseCodes() {
     return this->requisiteCourseCodes;
 }
 
-int Module::getAvailableSlots() {
-    return this->availableSlots;
+int Module::getMaxSlots() {
+    return this->maxSlots;
 }
 
-void Module::setAvailableSlots(int availableSlots) {
-    this->availableSlots = availableSlots;
+void Module::setMaxSlots(int availableSlots) {
+    this->maxSlots = availableSlots;
 }
 
-
-void Module::incrementAvailableSlots() {
-    this->availableSlots++;
+std::vector<Student> Module::getEnrolledStudents() {
+    return this->enrolledStudents;
 }
 
-void Module::decrementAvailableSlots() {
-    this->availableSlots--;
+bool Module::enrollStudent(Student s) {
+    if (this->maxSlots > enrolledStudents.size()) {
+        this->enrolledStudents.emplace_back(s);
+        return true;
+    }
+    return false;
+}
+
+void Module::pruneOverbookings() {
+    while (this->enrolledStudents.size() > this->maxSlots) {
+        this->enrolledStudents.pop_back();
+    }
 }
 
 bool Module::operator==(const Module& m) {

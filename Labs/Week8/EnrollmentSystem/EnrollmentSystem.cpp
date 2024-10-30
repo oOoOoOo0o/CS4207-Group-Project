@@ -12,9 +12,15 @@ void EnrollmentSystem::addModule(Module m) {
     this->listOfModules.push_back(m);
 }
 
-vector<string> EnrollmentSystem::checkEnrollmentEligibility(Student s, Module m) {
+vector<string> EnrollmentSystem::getMissingRequisiteCourseCodes(Student s, Module m) {
     vector<string> missingCourseCodes;
-    vector<string> completedCourseCodes = s.getCompletedCourseCodes();
+    vector<string> completedCourseCodes;
+
+    for (Module m : s.getCompletedModules()) {
+        string code = m.getCourseCode();
+        completedCourseCodes.push_back(code);
+    }
+
     for (string courseCode : m.getRequisiteCourseCodes()) {
         if ((find(completedCourseCodes.begin(), completedCourseCodes.end(), courseCode) == completedCourseCodes.end())) {
             missingCourseCodes.push_back(courseCode);
@@ -25,16 +31,18 @@ vector<string> EnrollmentSystem::checkEnrollmentEligibility(Student s, Module m)
 
 void EnrollmentSystem::enrollStudentInModule(Student& s, Module& m) {
     lock_guard<mutex> lock(mtx); // Locks the method and unlocks automatically when lock goes out of scope
+    vector<string> missingCodes = getMissingRequisiteCourseCodes(s, m);
 
-    vector<string> missingCodes = checkEnrollmentEligibility(s, m);
-    if (missingCodes.empty() && m.getAvailableSlots() > 0) {
-        s.addCurrentCourse(m.getCourseCode());
-        cout << "Successfully enrolled Student " << s.getId() << " in Module " << m.getCourseCode() << endl;
-        m.decrementAvailableSlots();
-    } else {
-        cout << "Failed to enroll Student " << s.getId() << "! Missing modules: " << endl;
+    if (m.getAvailableSlots() <= 0) {
+        cout << "Failed to enroll Student " << s.getId() << "! No available slots in " << m.getCourseCode() << endl;
+    } else if (!missingCodes.empty()) {
+        cout << "Failed to enroll Student " << s.getId() << "! Missing modules:" << endl;
         for (string code : missingCodes) {
             cout << code << endl;
         }
+    } else {
+        s.addCurrentCourse(m);
+        cout << "Successfully enrolled Student " << s.getId() << " in Module " << m.getCourseCode() << endl;
+        m.decrementAvailableSlots();
     }
 }

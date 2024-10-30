@@ -17,10 +17,10 @@ int main() {
     Student italo = Student(4);
     EnrollmentSystem es = EnrollmentSystem();
 
-    jacob.addCompletedCourse("cs4141");
-    euan.addCompletedCourse("cs4141");
-    blake.addCompletedCourse("cs4141");
-    italo.addCompletedCourse("cs4141");
+    jacob.addCompletedCourse(cs4141);
+    euan.addCompletedCourse(cs4141);
+    blake.addCompletedCourse(cs4141);
+    italo.addCompletedCourse(cs4141);
 
     vector<Student> students = {jacob, euan, blake, italo};
     vector<thread> threads;

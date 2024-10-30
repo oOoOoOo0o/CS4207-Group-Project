@@ -11,13 +11,15 @@ private:
     int availableSlots;
 
 public:
-    Module(std::string, int availableSlots);
-    Module(std::string, std::vector<std::string>, int availableSlots);
+    Module(std::string, int);
+    Module(std::string, std::vector<std::string>, int);
     std::string getCourseCode();
     std::vector<std::string> getRequisiteCourseCodes();
     int getAvailableSlots();
     void incrementAvailableSlots();
     void decrementAvailableSlots();
+
+    bool operator==(const Module&);
 };
 
 

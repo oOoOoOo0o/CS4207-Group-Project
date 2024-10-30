@@ -15,7 +15,7 @@ private:
 public:
     void addStudent(Student);
     void addModule(Module);
-    static std::vector<std::string> checkEnrollmentEligibility(Student, Module);
+    static std::vector<std::string> getMissingRequisiteCourseCodes(Student, Module);
     void enrollStudentInModule(Student&, Module&);
 };
 

@@ -2,20 +2,20 @@
 #define WK5LAB_STUDENT_H
 
 #include <vector>
-#include <string>
+#include "../Module/Module.h"
 
 class Student {
 private:
     int id;
-    std::vector<std::string> completedCourseCodes;
-    std::vector<std::string> currentCourseCodes;
+    std::vector<Module> completedModules;
+    std::vector<Module> currentModules;
 
 public:
     Student(int id);
     int getId();
-    void addCompletedCourse(std::string courseCode);
-    void addCurrentCourse(std::string courseCode);
-    std::vector<std::string> getCompletedCourseCodes();
+    void addCompletedCourse(Module);
+    void addCurrentCourse(Module);
+    std::vector<Module> getCompletedModules();
 };
 
 

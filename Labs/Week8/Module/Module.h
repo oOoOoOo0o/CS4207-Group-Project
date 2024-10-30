@@ -16,6 +16,7 @@ public:
     std::string getCourseCode();
     std::vector<std::string> getRequisiteCourseCodes();
     int getAvailableSlots();
+    void setAvailableSlots(int);
     void incrementAvailableSlots();
     void decrementAvailableSlots();
 

@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <thread>
 #include "EnrollmentSystem/EnrollmentSystem.h"
@@ -7,9 +8,12 @@
 using namespace std;
 
 int main() {
-    vector<string> requisiteCodes = {"cs4141"};
-    Module cs4207 = Module("cs4207", requisiteCodes, 1);
     Module cs4141 = Module("cs4141", 30);
+
+    vector<string> requisiteCodes = {"cs4141"};
+    Module cs4207 = Module("cs4207", requisiteCodes, 10);
+    // Task 1: Course Capacity Check - Allow 20% overbooking
+    cs4207.setAvailableSlots(floor(cs4207.getAvailableSlots() * 1.2));
 
     Student jacob = Student(1);
     Student euan = Student(2);

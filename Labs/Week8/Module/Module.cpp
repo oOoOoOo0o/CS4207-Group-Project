@@ -23,6 +23,11 @@ int Module::getAvailableSlots() {
     return this->availableSlots;
 }
 
+void Module::setAvailableSlots(int availableSlots) {
+    this->availableSlots = availableSlots;
+}
+
+
 void Module::incrementAvailableSlots() {
     this->availableSlots++;
 }

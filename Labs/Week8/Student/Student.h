@@ -1,5 +1,5 @@
-#ifndef WK5LAB_STUDENT_H
-#define WK5LAB_STUDENT_H
+#ifndef WK8LAB_STUDENT_H
+#define WK8LAB_STUDENT_H
 
 #include <vector>
 #include "../Module/Module.h"
@@ -19,4 +19,4 @@ public:
 };
 
 
-#endif //WK5LAB_STUDENT_H
+#endif //WK8LAB_STUDENT_H

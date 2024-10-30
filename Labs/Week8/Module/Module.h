@@ -1,5 +1,5 @@
-#ifndef WK5LAB_MODULE_H
-#define WK5LAB_MODULE_H
+#ifndef WK8LAB_MODULE_H
+#define WK8LAB_MODULE_H
 
 #include <string>
 #include <vector>
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //WK5LAB_MODULE_H
+#endif //WK8LAB_MODULE_H

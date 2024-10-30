@@ -1,5 +1,5 @@
-#ifndef WK5LAB_ENROLLMENTSYSTEM_H
-#define WK5LAB_ENROLLMENTSYSTEM_H
+#ifndef WK8LAB_ENROLLMENTSYSTEM_H
+#define WK8LAB_ENROLLMENTSYSTEM_H
 
 #include <vector>
 #include <mutex>
@@ -20,4 +20,4 @@ public:
 };
 
 
-#endif //WK5LAB_ENROLLMENTSYSTEM_H
+#endif //WK8LAB_ENROLLMENTSYSTEM_H

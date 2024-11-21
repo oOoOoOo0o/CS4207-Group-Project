@@ -9,7 +9,7 @@ using namespace std;
 class Student {
 private:
   static int studentCount;
-  const int id;
+  int id;
   string name;
   string course;
   int year;
@@ -19,8 +19,8 @@ private:
   vector<void*> completedModuleCodes;
 
 public:
-  Student(string, string); // Non specified year/semester will default to 1, 1
   Student(string, string, int, int);
+  Student(string, string); // Non specified year/semester will default to 1, 1
 
   // Getters and setters
   int getId();

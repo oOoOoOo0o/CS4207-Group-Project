@@ -22,16 +22,16 @@ public:
 
   // Getters and setters
   string getModuleCode();
-  int getCapacity();
-  void setCapacity(int);
+  int getMaxCapacity();
+  void getMaxCapacity(int);
   vector<Student*> getEnrolledStudents();
   vector<Module*> getRequisiteModules();
   vector<string> getCompatibleCourses();
 
-  bool addEnrolledStudent(Student*); // true if successful
+  void addEnrolledStudent(Student*); // true if successful
   bool removeEnrolledStudent(Student*); // true if successful
   bool isStudentEnrolled(Student*);
-  bool addRequisiteModule(Module*); // true if successful
+  void addRequisiteModule(Module*); // true if successful
   bool removeRequisiteModule(Module*); // true if successful
 
   void removeOverbookings();

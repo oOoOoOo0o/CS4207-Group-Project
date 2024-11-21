@@ -28,7 +28,8 @@ public:
   vector<Module*> getRequisiteModules();
   vector<string> getCompatibleCourses();
 
-  void addEnrolledStudent(Student*); // true if successful
+  int getEnrolledStudentIndex(Student*);
+  bool addEnrolledStudent(Student*); // true if successful
   bool removeEnrolledStudent(Student*); // true if successful
   bool isStudentEnrolled(Student*);
   void addRequisiteModule(Module*); // true if successful

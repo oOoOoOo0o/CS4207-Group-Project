@@ -13,8 +13,8 @@ Student::Student(string name, string course, int year, int semester) {
   studentCount++;
 }
 
-Student::Student(string name, string course) {
-  this->Student::Student(name, course, 1, 1);
+Student::Student(string name, string course) 
+  : Student(name, course, 1, 1) {
 }
 
 int Student::getId() {

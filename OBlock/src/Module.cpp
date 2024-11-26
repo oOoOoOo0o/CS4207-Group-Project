@@ -1,7 +1,8 @@
 #include "Module.h"
 
-Module::Module(string code, int maxCapacity) {
+Module::Module(string code, string course, int maxCapacity) {
   this->code = code;
+  this->course = course;
   this->maxCapacity = maxCapacity;
   this->enrolledStudents = vector<Student*>();
   this->requisiteModules = vector<Module*>();
@@ -10,6 +11,10 @@ Module::Module(string code, int maxCapacity) {
 
 string Module::getModuleCode() {
   return this->code;
+}
+
+string Module::getCourse() {
+    return course;
 }
 
 int Module::getMaxCapacity() {

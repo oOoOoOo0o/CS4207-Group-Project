@@ -11,6 +11,7 @@ using namespace std;
 class Module {
 private:
   string code;
+  string course;
   int maxCapacity;
   vector<Student*> enrolledStudents;
   vector<Module*> requisiteModules;
@@ -18,10 +19,11 @@ private:
   // other pre-reqs can be added as they come up
 
 public:
-  Module(string, int);
+  Module(string, string, int);
 
   // Getters and setters
   string getModuleCode();
+  string getCourse();
   int getMaxCapacity();
   void getMaxCapacity(int);
   vector<Student*> getEnrolledStudents();

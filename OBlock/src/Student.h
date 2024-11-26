@@ -6,6 +6,8 @@
 
 using namespace std;
 
+class Module;
+
 class Student {
 private:
   static int studentCount;
@@ -15,8 +17,7 @@ private:
   int year;
   int semester;
   bool paidFees;
-  // We are using a void pointer to avoid circular dependency, this will be a vector of pointers to Modules
-  vector<void*> completedModuleCodes;
+  vector<Module*> completedModuleCodes;
 
 public:
   Student(string, string, int, int);
@@ -35,7 +36,7 @@ public:
   bool getPaidFees();
   void setPaidFees(bool);
   void addCompletedModule(void*);
-  vector<void*> getCompletedModules();
+  vector<Module*> getCompletedModules();
 };
 
 #endif //STUDENT_H

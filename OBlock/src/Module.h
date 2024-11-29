@@ -1,0 +1,40 @@
+#ifndef MODULE_H
+#define MODULE_H
+
+#include <string>
+#include <vector>
+
+#include "Student.h"
+
+using namespace std;
+
+class Module {
+private:
+  string code;
+  int maxCapacity;
+  vector<Student*> enrolledStudents;
+  vector<Module*> requisiteModules;
+  vector<string> compatibleCourses;
+  // other pre-reqs can be added as they come up
+
+public:
+  Module(string, int);
+
+  // Getters and setters
+  string getModuleCode();
+  int getCapacity();
+  void setCapacity(int);
+  vector<Student*> getEnrolledStudents();
+  vector<Module*> getRequisiteModules();
+  vector<string> getCompatibleCourses();
+
+  bool addEnrolledStudent(Student*); // true if successful
+  bool removeEnrolledStudent(Student*); // true if successful
+  bool isStudentEnrolled(Student*);
+  bool addRequisiteModule(Module*); // true if successful
+  bool removeRequisiteModule(Module*); // true if successful
+
+  void removeOverbookings();
+};
+
+#endif //MODULE_H

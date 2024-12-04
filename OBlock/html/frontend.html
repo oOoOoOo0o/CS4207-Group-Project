@@ -3,24 +3,33 @@
 	<head>
 		<meta charset='UTF-8'>
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-		<script src='getinput.js'></script>
 		<link rel="icon" href = "crypto.png" type= "image/png"/>
 		<title>O-Block Island</title>    
 	</head>
 	<body>
 		<p style = "color:cyan;font-size:30px;outline:3px;-webkit-text-stroke-width: 3px;">Welcome to the O-Block Project Website</p>
 		<form name="test">
-			<input type = "text" name = "studentname" placeholder="Enter the student name pls" required/>
-			<br></br>
-			<input type = "int" name = "studentid" placeholder="Enter the student ID" required/>
-			<br></br>
-			<input type = "int" name = "courseid" placeholder="Enter the course ID they want to enroll in" required/>
-			<br></br>
+			<input type = "text" name = "studentname" id = "studentname" placeholder="Enter the student name pls" required/>
+			<br>
+			<input type = "number" name = "studentid" id = "studentid" placeholder="Enter the student ID" min="11111111" max="99999999" required/>
+			<br>
+			<input type = "number" name = "courseid" id = "courseid" placeholder="Enter the course ID they want to enroll in" required/>
+			<br>
 			<label for:"paidfees">Have they paid their fees?</label>
 			<input type ="checkbox" name = "paid" id="paidfees" placeholder="Have they paid?" style="padding-top: 20px;" required/>
-			<br></br>
-			<input type ="submit" name = "subby"/>
+			<br>
+			<button id = "stdnt">Submit</button>
 			<input type ="reset" name = "resetti"/>
 		</form>
+		<br>
+		<form name = "csv">
+			<input type = "file" name = "csvfile" id = "csvfile" placeholder="Student Info CSV" required>
+			<br>
+			<button id = "subcsv">Submit</button>
+			<input type ="reset" name = "csvresetti"/>
+			<br>
+		</form>
+
+		<script src='getinput.js'></script>
 	</body>
 </html>

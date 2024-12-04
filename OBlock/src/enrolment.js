@@ -5,8 +5,8 @@ function canStudentEnrollInModule(student, module) {
         return false;
     }
 
-    // Check if the course names match
-    if (student.getCourse() !== module.getCourse()) {
+    // Check if the student's course is in module's courses
+    if (module.getCourses.includes(student.getCourse())) {
         return false;
     }
 

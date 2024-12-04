@@ -1,8 +1,8 @@
 class Module {
 
-    constructor(code, course, maxCapacity) {
+    constructor(code, courses = [], maxCapacity) {
         this.code = code;
-        this.course = course;
+        this.courses = courses;
         this.maxCapacity = maxCapacity;
         this.enrolledStudents = [];
         this.requisiteModules = [];
@@ -14,8 +14,8 @@ class Module {
         return this.code;
     }
 
-    getCourse() {
-        return this.course;
+    getCourses() {
+        return this.courses;
     }
 
     getMaxCapacity() {
@@ -36,6 +36,10 @@ class Module {
 
     getCompatibleCourses() {
         return this.compatibleCourses;
+    }
+
+    addCourse(course) {
+        this.courses.push(course);
     }
 
     addEnrolledStudent(student) {

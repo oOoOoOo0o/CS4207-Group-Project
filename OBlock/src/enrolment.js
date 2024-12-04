@@ -1,7 +1,7 @@
 
 function canStudentEnrollInModule(student, module) {
     // Check if the student has paid fees
-    if (student.getPaidFees()) {
+    if (!student.getPaidFees()) {
         return false;
     }
 

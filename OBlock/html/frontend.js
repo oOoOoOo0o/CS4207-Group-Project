@@ -19,6 +19,11 @@ function createStudent(event) {
     displayStudents()
 }
 
+function removeStudent(id) {
+    students = students.filter(student => student.id !== id)
+    displayStudents()
+}
+
 function displayStudents() {
     const studentTableBody = document.getElementById('studentTableBody');
     studentTableBody.innerHTML = '';  // Clear previous list
@@ -38,6 +43,7 @@ function displayStudents() {
                     <td>${student.course}</td>
                     <td>${student.year}</td>
                     <td>${student.semester}</td>
+                    <td><button id="deleteStudentButton" onclick="removeStudent(${student.id})">Delete</button></td>
                 `;
         studentTableBody.appendChild(row);
     });

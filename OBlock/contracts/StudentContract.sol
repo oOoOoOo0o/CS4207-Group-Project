@@ -6,16 +6,15 @@ contract StudentContact{
     mapping(string => Student) studentMap;
 
     struct Student{
-        uint256 id;
-        uint8 qca;
+        uint32 id;
         bool hasPaid;
     }
 
-    function addStudent(string memory courseCode, uint256 i, uint8 q, bool paid) public {
-            studentMap[courseCode] = Student(i, q, paid);
+    function addStudent(string memory courseCode, uint32 i, bool paid) public {
+            studentMap[courseCode] = Student(i, paid);
     }
 
-    constructor(string memory courseCode, uint256 i, uint8 q, bool paid){
-        addStudent(courseCode, i, q, paid);
+    constructor(string memory courseCode, uint32 i, bool paid){
+        addStudent(courseCode, i, paid);
     }
 }

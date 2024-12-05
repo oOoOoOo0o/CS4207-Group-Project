@@ -67,4 +67,12 @@ class Student {
             console.error("Invalid module");
         }
     }
+
+    display() {
+        return `
+                    <p><strong>ID:</strong> ${this.id}, <strong>Name:</strong> ${this.name}, 
+                    <strong>Course:</strong> ${this.course}, <strong>Year:</strong> ${this.year}, 
+                    <strong>Semester:</strong> ${this.semester}</p>
+                `;
+    }
 }

@@ -4,23 +4,49 @@
 		<meta charset='UTF-8'>
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 		<link rel="icon" href = "crypto.png" type= "image/png"/>
-		<title>O-Block Island</title>    
+		<script src="../src/student.js"></script>
+		<script src="../src/module.js"></script>
+		<script src="../src/enrolment.js"></script>
+		<script src="./frontend.js"></script>
+		<title>O-Block Island</title>
 	</head>
 	<body>
 		<p style = "color:cyan;font-size:30px;outline:3px;-webkit-text-stroke-width: 3px;">Welcome to the O-Block Project Website</p>
-		<form name="test">
-			<input type = "text" name = "studentname" id = "studentname" placeholder="Enter the student name pls" required/>
-			<br>
-			<input type = "number" name = "studentid" id = "studentid" placeholder="Enter the student ID" min="11111111" max="99999999" required/>
-			<br>
-			<input type = "number" name = "courseid" id = "courseid" placeholder="Enter the course ID they want to enroll in" min="1111" max="9999" required/>
-			<br>
-			<label for:"paidfees">Have they paid their fees?</label>
-			<input type ="checkbox" name = "paid" id="paidfees" placeholder="Have they paid?" style="padding-top: 20px;" required/>
-			<br>
-			<button id = "stdnt">Submit</button>
-			<input type ="reset" name = "resetti"/>
+
+		<form id="studentForm">
+			<label for="name">Student Name:</label>
+			<input type="text" id="name" required><br><br>
+
+			<label for="course">Course:</label>
+			<input type="text" id="course" required><br><br>
+
+			<label for="year">Year:</label>
+			<input type="number" id="year" min="1" value="1"><br><br>
+
+			<label for="semester">Semester:</label>
+			<input type="number" id="semester" min="1" value="1"><br><br>
+
+			<button type="submit">Create Student</button>
 		</form>
+
+		<h2>List of Students</h2>
+		<div id="studentTableContainer">
+			<table>
+				<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Course</th>
+					<th>Year</th>
+					<th>Semester</th>
+				</tr>
+				</thead>
+				<tbody id="studentTableBody">
+				<!-- Student rows will be inserted here -->
+				</tbody>
+			</table>
+		</div>
+
 		<br>
 		<form name = "csv">
 			<input type = "file" name = "csvfile" id = "csvfile" placeholder="Student Info CSV" required>

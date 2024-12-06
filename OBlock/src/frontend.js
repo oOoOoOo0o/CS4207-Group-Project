@@ -1,25 +1,5 @@
-let students = [
-    {
-        "id": 0,
-        "name": "Bayan",
-        "course": "LM051",
-        "year": 1,
-        "semester": 1,
-        "paidFees": false,
-        "completedModuleCodes": []
-    }
-];
-let modules = [
-    {
-        "code": "CS4123",
-        "courses": [
-            "LM051"
-        ],
-        "maxCapacity": "1",
-        "enrolledStudents": [],
-        "requisiteModules": []
-    }
-];
+let students = [];
+let modules = [];
 
 window.onload = function() {
     // Event listeners

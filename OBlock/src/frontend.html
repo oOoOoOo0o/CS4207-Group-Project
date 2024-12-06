@@ -5,11 +5,12 @@
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 		<link rel="icon" href = "../assets/crypto.png" type= "image/png"/>
 		<link rel="stylesheet" href="./frontend.css">
-		<script src='./getinput.js'></script>
-		<script src="student.js"></script>
-		<script src="module.js"></script>
-		<script src="enrolment.js"></script>
 		<script src="./frontend.js"></script>
+		<script src='./getinput.js'></script>
+		<script src="./student.js"></script>
+		<script src="./module.js"></script>
+		<script src="./enrolment.js"></script>
+
 		<title>O-Block Island</title>
 	</head>
 	<body>
@@ -101,5 +102,17 @@
 		    	</table>
 		    </div>
         </div>
+		<br>
+
+		<div class="enrolment">
+			<h3>Enroll a student in a module</h3>
+			<label for="selectStudent">Select Student:</label>
+			<select id="selectStudent" required> </select>
+			<br><br>
+			<label for="selectModule">Select Module:</label>
+			<select id="selectModule" required> </select>
+			<br><br>
+			<button onclick="enrollStudentInModule()">Enroll Student</button>
+		</div>
 	</body>
 </html>

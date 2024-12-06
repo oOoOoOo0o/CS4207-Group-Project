@@ -1,5 +1,5 @@
 class Student {
-    static studentCount = 0;
+    static studentCount = students.length;
 
     constructor(name, course, year = 1, semester = 1) {
         this.id = Student.studentCount++;
@@ -135,4 +135,6 @@ function displayStudents() {
         `;
         studentTableBody.appendChild(row);
     });
+
+    populateStudentDropdown();
 }

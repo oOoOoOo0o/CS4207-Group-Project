@@ -6,22 +6,20 @@ class Module {
         this.maxCapacity = maxCapacity;
         this.enrolledStudents = [];
         this.requisiteModules = [];
-        this.compatibleCourses = [];
     }
+}
 
-    addEnrolledStudent(student) {
-        if (this.enrolledStudents.length < this.maxCapacity) {
-            this.enrolledStudents.push(student);
-            return true;
-        }
-        return false;
+function addEnrolledStudent(student, module) {
+    if (module.enrolledStudents.length < module.maxCapacity) {
+        module.enrolledStudents.push(student);
+        return true;
     }
+    return false;
+}
 
-    // For when capacity is reduced
-    removeOverbookings() {
-        if (this.enrolledStudents.length > this.maxCapacity) {
-            this.enrolledStudents.splice(this.maxCapacity);
-        }
+function removeOverbookings(module) {
+    if (module.enrolledStudents.length > module.maxCapacity) {
+        module.enrolledStudents.splice(module.maxCapacity);
     }
 }
 
@@ -63,7 +61,7 @@ function addCourseToModule(code) {
 
     const module = modules.find(module => module.code === code);
     if (module) {
-        module.compatibleCourses.push(course);
+        module.courses.push(course);
     }
     displayModules();
 }
@@ -71,7 +69,7 @@ function addCourseToModule(code) {
 function removeCourseFromModule(code, course) {
     const module = modules.find(module => module.code === code);
     if (module) {
-        module.compatibleCourses = module.compatibleCourses.filter(c => c !== course);
+        module.courses = module.courses.filter(c => c !== course);
     }
     displayModules();
 }
@@ -101,7 +99,8 @@ function removeRequisiteFromModule(code, requisite) {
 function pruneModuleOverbookings(code) {
     const module = modules.find(module => module.code === code);
     if (module) {
-        module.removeOverbookings();
+        removeOverbookings(module);
+        displayModules();
     }
 }
 
@@ -119,12 +118,16 @@ function displayModules() {
         row.innerHTML = `
             <td>${module.code}</td>
             <td>${module.maxCapacity}</td>
-            <td>${module.enrolledStudents.size}</td>
+            <td>${module.enrolledStudents.length}</td>
             <td class="scrollableList">
-                <div class="scrollableContent">${Array.from(module.enrolledStudents).join('<br>')}</div>
+                <div>${module.enrolledStudents.map(student => `
+                    <div style="border-bottom: 1px solid #aaa;">
+                        <span>${student.name}</span>
+                    </div>
+                `).join('')}</div>
             </td>
             <td class="scrollableList">
-                <div class="scrollableContent">${module.compatibleCourses.map(course => `
+                <div class="scrollableContent">${module.courses.map(course => `
                     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #aaa;">
                         <span>${course}</span>
                         <button onclick="removeCourseFromModule('${module.code}', '${course}')">Remove</button>
@@ -163,4 +166,6 @@ function displayModules() {
         `;
         moduleTableBody.appendChild(row);
     });
+
+    populateModuleDropdown();
 }

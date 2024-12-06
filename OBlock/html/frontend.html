@@ -15,17 +15,17 @@
 		<p style = "color:cyan;font-size:30px;outline:3px;-webkit-text-stroke-width: 3px;">Welcome to the O-Block Project Website</p>
 
 		<form id="studentForm">
-			<label for="name">Student Name:</label>
-			<input type="text" id="name" required><br><br>
+			<label for="studentName">Student Name:</label>
+			<input type="text" id="studentName" required><br><br>
 
-			<label for="course">Course:</label>
-			<input type="text" id="course" required><br><br>
+			<label for="studentCourse">Course:</label>
+			<input type="text" id="studentCourse" required><br><br>
 
-			<label for="year">Year:</label>
-			<input type="number" id="year" min="1" value="1"><br><br>
+			<label for="studentYear">Year:</label>
+			<input type="number" id="studentYear" min="1" value="1"><br><br>
 
-			<label for="semester">Semester:</label>
-			<input type="number" id="semester" min="1" value="1"><br><br>
+			<label for="studentSemester">Semester:</label>
+			<input type="number" id="studentSemester" min="1" value="1"><br><br>
 
 			<button type="submit">Create Student</button>
 		</form>
@@ -44,6 +44,35 @@
 				</tr>
 				</thead>
 				<tbody id="studentTableBody">
+				</tbody>
+			</table>
+		</div>
+
+		<form id="moduleForm">
+			<label for="moduleCode">Module Code:</label>
+			<input type="text" id="moduleCode" required><br><br>
+
+			<label for="moduleCapacity">Module Capacity:</label>
+			<input type="text" id="moduleCapacity" required><br><br>
+
+			<button type="submit">Create Module</button>
+		</form>
+
+		<h2>List of Modules</h2>
+		<div id="moduleTableContainer">
+			<table>
+				<thead>
+				<tr>
+					<th style="width: 10%">Code</th>
+					<th style="width: 10%">Max Capacity</th>
+					<th style="width: 10%">Current Enrolments</th>
+					<th style="width: 20%">Enrolled Students</th>
+					<th style="width: 20%">Compatible Courses</th>
+					<th style="width: 20%">Requisite Modules</th>
+					<th id="deleteModule"></th>
+				</tr>
+				</thead>
+				<tbody id="moduleTableBody">
 				</tbody>
 			</table>
 		</div>

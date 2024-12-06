@@ -1,8 +1,8 @@
 class Module {
 
-    constructor(code, courses = [], maxCapacity) {
+    constructor(code, maxCapacity) {
         this.code = code;
-        this.courses = courses;
+        this.courses = [];
         this.maxCapacity = maxCapacity;
         this.enrolledStudents = [];
         this.requisiteModules = [];

@@ -32,8 +32,8 @@ tr:hover {
 
 .scrollableList {
     width: 20%;
-    max-height: 100px;
-    overflow-y: auto;
+    max-height: 50px;
+    overflow-y: scroll;
 }
 
 .loadFromCsv {

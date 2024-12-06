@@ -12,7 +12,6 @@ table {
 }
 
 th, td {
-    width: 20%;
     padding: 10px;
     text-align: left;
     border: 1px solid #ddd;
@@ -26,7 +25,7 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-#deleteButton {
+.deleteButton {
     width: 100%;
     color: darkred;
 }
@@ -35,4 +34,9 @@ tr:hover {
     width: 20%;
     max-height: 100px;
     overflow-y: auto;
+}
+
+.loadFromCsv {
+    display: flex;
+    flex-direction: row;
 }

@@ -45,7 +45,7 @@ function displayStudents() {
                     <td>${student.course}</td>
                     <td>${student.year}</td>
                     <td>${student.semester}</td>
-                    <td><button id="deleteButton" onclick="removeStudent(${student.id})">Delete</button></td>
+                    <td><button class="deleteButton" onclick="removeStudent(${student.id})">Delete</button></td>
                 `;
         studentTableBody.appendChild(row);
     });
@@ -73,6 +73,65 @@ function removeModule(code) {
     displayModules();
 }
 
+function updateCapacity(code, newCapacity) {
+    const module = modules.find(module => module.code === code);
+    if (module) {
+        module.maxCapacity = newCapacity;
+    }
+    displayModules();
+}
+
+function addCourseToModule(code) {
+    const course = document.getElementById('courseToAdd').value
+    if (course.trim() === '') {
+        alert('Course name must not be empty');
+        return;
+    }
+
+    const module = modules.find(module => module.code === code);
+    if (module) {
+        module.compatibleCourses.push(course);
+    }
+    displayModules();
+}
+
+function removeCourseFromModule(code, course) {
+    const module = modules.find(module => module.code === code);
+    if (module) {
+        module.compatibleCourses = module.compatibleCourses.filter(c => c !== course);
+    }
+    displayModules();
+}
+
+function addRequisiteToModule(code) {
+    const course = document.getElementById('requisiteToAdd').value
+    if (course.trim() === '') {
+        alert('Requisite module code must not be empty');
+        return;
+    }
+
+    const module = modules.find(module => module.code === code);
+    if (module) {
+        module.requisiteModules.push(course);
+    }
+    displayModules();
+}
+
+function removeRequisiteFromModule(code, requisite) {
+    const module = modules.find(module => module.code === code);
+    if (module) {
+        module.requisiteModules = module.requisiteModules.filter(r => r !== requisite);
+    }
+    displayModules();
+}
+
+function pruneModuleOverbookings(code) {
+    const module = modules.find(module => module.code === code);
+    if (module) {
+        module.removeOverbookings();
+    }
+}
+
 function displayModules() {
     const moduleTableBody = document.getElementById('moduleTableBody');
     moduleTableBody.innerHTML = '';
@@ -83,16 +142,45 @@ function displayModules() {
     }
 
     modules.forEach(module => {
-        const row = document.createElement('tr');
-
+        let row = document.createElement('tr');
         row.innerHTML = `
-            <td style="width: 10%">${module.code}</td>
-            <td style="width: 5%">${module.maxCapacity}</td>
-            <td style="width: 5%">${module.enrolledStudents.size}</td>
-            <td class="scrollableList">${module.enrolledStudents}</td>
-            <td class="scrollableList">${module.compatibleCourses}</td>
-            <td class="scrollableList">${module.requisiteModules}</td>
-            <td><button id="deleteButton" onclick="removeModule('${module.code}')">Delete</button></td>
+            <td>${module.code}</td>
+            <td>${module.maxCapacity}</td>
+            <td>${module.enrolledStudents.size}</td>
+            <td class="scrollableList">${Array.from(module.enrolledStudents).join('<br>')}</td>
+            <td class="scrollableList">${module.compatibleCourses.map(course => `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>${course}</span>
+                        <button onclick="removeCourseFromModule('${module.code}', '${course}')">Remove</button>
+                    </div>
+                `).join('<br>')}</td>
+            <td class="scrollableList">${module.requisiteModules.map(requisite => `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>${requisite}</span>
+                        <button onclick="removeRequisiteFromModule('${module.code}', '${requisite}')">Remove</button>
+                    </div>
+                `).join('<br>')}</td>
+            <td><button class="deleteButton" onclick="removeModule('${module.code}')">Delete</button></td>
+        `;
+        moduleTableBody.appendChild(row);
+
+        row = document.createElement('tr');
+        row.innerHTML = `
+            <td></td>
+            <td>
+                Edit capacity
+                <input type="number" value="${module.maxCapacity}" onchange="updateCapacity('${module.code}', this.value)" />
+            </td>
+            <td></td>
+            <td><button class="deleteButton" onclick="pruneModuleOverbookings('${module.code}')">Prune Overbookings</button></td>
+            <td>
+                <button onclick="addCourseToModule('${module.code}')">Add course</button>
+                <input type="text" id="courseToAdd"/>
+            </td>
+            <td class="scrollableList">
+                <button onclick="addRequisiteToModule('${module.code}')">Add requisite</button>
+                <input type="text" id="requisiteToAdd"/>
+            </td>
         `;
         moduleTableBody.appendChild(row);
     });

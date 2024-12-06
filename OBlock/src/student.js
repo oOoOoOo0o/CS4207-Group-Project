@@ -101,12 +101,15 @@ function displayStudents() {
                     <td>${student.year}</td>
                     <td>${student.semester}</td>
                     <td>${student.paidFees}</td>
-                    <td class="scrollableList">${student.completedModuleCodes.map(code => `
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>${code}</span>
-                            <button onclick="removeCompletedModule(${student.id}, '${code}')">Remove</button>
+                    <td class="scrollableList">
+                        <div class="scrollableContent">${student.completedModuleCodes.map(code => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #aaa;">
+                                <span>${code}</span>
+                                <button onclick="removeCompletedModule(${student.id}, '${code}')">Remove</button>
+                            </div>
+                        `).join('<br>')}
                         </div>
-                    `).join('<br>')}</td>
+                    </td>
                     <td><button class="deleteButton" onclick="removeStudent(${student.id})">Delete</button></td>
                 `;
         studentTableBody.appendChild(row);

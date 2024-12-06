@@ -120,19 +120,25 @@ function displayModules() {
             <td>${module.code}</td>
             <td>${module.maxCapacity}</td>
             <td>${module.enrolledStudents.size}</td>
-            <td class="scrollableList">${Array.from(module.enrolledStudents).join('<br>')}</td>
-            <td class="scrollableList">${module.compatibleCourses.map(course => `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+            <td class="scrollableList">
+                <div class="scrollableContent">${Array.from(module.enrolledStudents).join('<br>')}</div>
+            </td>
+            <td class="scrollableList">
+                <div class="scrollableContent">${module.compatibleCourses.map(course => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #aaa;">
                         <span>${course}</span>
                         <button onclick="removeCourseFromModule('${module.code}', '${course}')">Remove</button>
                     </div>
-                `).join('<br>')}</td>
-            <td class="scrollableList">${module.requisiteModules.map(requisite => `
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                `).join('<br>')}</div>
+            </td>
+            <td class="scrollableList">
+                <div class="scrollableContent">${module.requisiteModules.map(requisite => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #aaa;">
                         <span>${requisite}</span>
                         <button onclick="removeRequisiteFromModule('${module.code}', '${requisite}')">Remove</button>
                     </div>
-                `).join('<br>')}</td>
+                `).join('<br>')}</div>
+            </td>
             <td><button class="deleteButton" onclick="removeModule('${module.code}')">Delete</button></td>
         `;
         moduleTableBody.appendChild(row);

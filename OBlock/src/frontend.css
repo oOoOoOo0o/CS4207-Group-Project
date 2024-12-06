@@ -6,6 +6,13 @@
     margin-top: 20px;
 }
 
+#moduleTableContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -31,9 +38,15 @@ tr:hover {
 }
 
 .scrollableList {
-    width: 20%;
-    max-height: 50px;
+    max-height: 75px;
+    overflow-y: hidden;
+}
+
+.scrollableContent {
+    max-height: 75px;
     overflow-y: scroll;
+    display: block;
+    line-height: 2px;
 }
 
 .loadFromCsv {

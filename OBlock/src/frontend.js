@@ -49,3 +49,65 @@ function populateModuleDropdown() {
         moduleSelect.appendChild(option);
     });
 }
+console.log(document.getElementById("submitModuleCsv")); //testing to see if it can find the submitModuleCsv button 
+
+document.addEventListener("DOMContentLoaded", function() {
+document.getElementById("submitModuleCsv").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    const fileInput = document.getElementById("moduleCsv");
+    const file = fileInput.files[0];
+    console.log("getElementById being hit")
+    if (!file) {
+        alert("Please select a CSV file.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const csvData = e.target.result;
+        parseCsvAndLoadModules(csvData);
+    };
+
+    reader.onerror = function() {
+        alert("An error occurred while reading the file.");
+    };
+
+    reader.readAsText(file);
+});
+});
+function parseCsvAndLoadModules(csvData) {
+    const rows = csvData.split("\n").map(row => row.trim()).filter(row => row); // Split by line and remove empty rows
+    const headers = rows.shift().split(",").map(header => header.trim()); // Extract headers
+
+    rows.forEach(row => {
+        // Use regex to correctly handle quoted fields
+        const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map(value => value.replace(/(^"|"$)/g, '').trim());
+        const moduleData = {};
+
+        headers.forEach((header, index) => {
+            moduleData[header] = values[index];
+        });
+
+        // Create a Module instance
+        const newModule = new Module(moduleData["Code"], parseInt(moduleData["Max Capacity"]));
+
+        // Populate additional properties
+        if (moduleData["Enrolled Students"]) {
+            newModule.enrolledStudents = moduleData["Enrolled Students"].split(",").map(name => name.trim());
+        }
+        if (moduleData["Courses"]) {
+            newModule.courses = moduleData["Courses"].split(",").map(course => course.trim());
+        }
+        if (moduleData["Requisite Modules"]) {
+            newModule.requisiteModules = moduleData["Requisite Modules"].split(",").map(requisite => requisite.trim());
+        }
+
+        // Add the module to the global modules array
+        modules.push(newModule);
+    });
+
+    // Refresh the module display
+    displayModules();
+}

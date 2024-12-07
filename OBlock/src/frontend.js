@@ -50,13 +50,15 @@ function loadStudentsFromCSV() {
         for (let i = 1; i < rows.length; i++) {
             const columns = rows[i].split(',');
 
-            if (columns.length >= 4 && columns.every(col => col.trim() !== '')) {
+            if (columns.length >= 6 && columns.every(col => col.trim() !== '')) {
                 const name = columns[0].trim();
                 const course = columns[1].trim();
                 const year = parseInt(columns[2].trim()) || 1;
                 const semester = parseInt(columns[3].trim()) || 1;
+                const paidFees = columns[4].trim().toLowerCase() === 'true';
+                const completedModuleCodes = parseModuleCodes(columns[5]);
 
-                const student = new Student(name, course, year, semester);
+                const student = new Student(name, course, year, semester, paidFees, completedModuleCodes);
                 console.log('Added student: ${name}, ${course}, Year: ${year}, Semester: ${semester} to array');
                 students.push(student);
             } else {
@@ -73,6 +75,17 @@ function loadStudentsFromCSV() {
     };
 
     reader.readAsText(file);
+}
+
+function parseModuleCodes(line) {
+    let codes = line.replace('"[', '');
+    codes = codes.replace(']"', '');
+    codes = codes.trim();
+
+    if (codes === '') {
+        return [];
+    }
+    return codes.split(' ');
 }
 
 function populateModuleDropdown() {

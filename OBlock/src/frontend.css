@@ -1,0 +1,55 @@
+
+#studentTableContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+#moduleTableContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.deleteButton {
+    width: 100%;
+    color: darkred;
+}
+
+.scrollableList {
+    max-height: 75px;
+    overflow-y: hidden;
+}
+
+.scrollableContent {
+    max-height: 75px;
+    overflow-y: scroll;
+    display: block;
+    line-height: 2px;
+}
+
+.loadFromCsv {
+    display: flex;
+    flex-direction: row;
+}

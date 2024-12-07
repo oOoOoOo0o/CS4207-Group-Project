@@ -32,6 +32,46 @@ function populateStudentDropdown() {
     });
 }
 
+
+function loadStudentsFromCSV() {
+    const fileInput = document.getElementById('studentCsv');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a CSV file!");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        const csvData = event.target.result;
+        const rows = csvData.split('\n');
+
+        for (let i = 1; i < rows.length; i++) {
+            const columns = rows[i].split(',');
+
+            if (columns.length >= 4) {
+                const name = columns[0].trim();
+                const course = columns[1].trim();
+                const year = parseInt(columns[2].trim()) || 1;
+                const semester = parseInt(columns[3].trim()) || 1;
+
+                const student = new Student(name, course, year, semester);
+                students.push(student);
+            }
+        }
+
+        displayStudents();
+        alert("Students loaded successfully from CSV!");
+    };
+
+    reader.onerror = function () {
+        alert("Failed to read the file!");
+    };
+
+    reader.readAsText(file);
+}
+
 function populateModuleDropdown() {
     const moduleSelect = document.getElementById("selectModule");
 

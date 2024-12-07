@@ -14,12 +14,21 @@
 		<title>O-Block Island</title>
 	</head>
 	<body>
-		<h1>Welcome to O-Block!</h1>
+
+		<marquee
+				direction="down"
+				height="100"
+				behavior="alternate"
+				style="width: 100%; display: block;">
+			<marquee behavior="alternate">
+				<h1>Welcome to O-Block!</h1>
+			</marquee>
+		</marquee>
 
 		<div class="loadFromCsv">
 			<form name = "loadStudents">
 				<span>Load students from CSV</span> <br>
-				<input type = "file" name = "studentCsv" id = "studentCsv" placeholder="Student CSV" required>
+				<input type = "file" name = "studentCsv" id = "studentCsv" placeholder="Student CSV" accept=".csv" required>
 				<br>
 				<button id = "submitStudentCsv">Submit</button>
 			</form>

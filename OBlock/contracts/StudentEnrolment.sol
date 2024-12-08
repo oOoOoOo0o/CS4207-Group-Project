@@ -91,43 +91,40 @@ contract StudentEnrolment {
 
     /* Enroll a student */
     function enrollStudent(string memory moduleCode, string memory studentName) public {
-        // We can check if a module already exists by checking if its max capacity is greater than 0
-        // as when a module doesnt exist its default maxCapacity will be 0 and if it does exist
-        // it will be greater than 0 (since logically a module cannot exist with a capacity of 0)
-//        require(Modules[moduleCode].maxCapacity > 0, "Module does not exist");
-//        Module storage module = Modules[moduleCode];
-//        require(module.students.length < module.maxCapacity, "Module is at max capacity");
-//
-//        // Check if student is already enrolled.
-//        for (uint8 i = 0; i < module.students.length; i++) {
-//            string memory str = module.requisiteModules[i];
-//            if (comString(str, studentName)) {
-//                require(false, "Student is already enrolled");
-//            }
-//        }
-//
-//        // Check course
-//        for (uint8 i = 0; i < module.compatibleCourses.length; i++) {
-//            string memory str = module.compatibleCourses[i];
-//            require(comString(str, Students[studentName].course), "Student is not in a course with this module");
-//        }
-//
-//        // Check requisites
-//        string[] memory completed = Students[studentName].completedModules;
-//        for (uint8 i = 0; i < module.requisiteModules.length; i++) {
-//            bool found = false;
-//            for (uint8 j = 0; j < completed.length; j++) {
-//                string memory str = module.requisiteModules[i];
-//                if (comString(str, completed[j])) {
-//                    found = true;
-//                    break;
-//                }
-//            }
-//            require(found, "Student doesn't have requisite modules completed");
-//        }
+         We can check if a module already exists by checking if its max capacity is greater than 0
+         as when a module doesnt exist its default maxCapacity will be 0 and if it does exist
+         it will be greater than 0 (since logically a module cannot exist with a capacity of 0)
+        require(Modules[moduleCode].maxCapacity > 0, "Module does not exist");
+        Module storage module = Modules[moduleCode];
+        require(module.students.length < module.maxCapacity, "Module is at max capacity");
 
-        require(comString(studentName, "Sam"));
-        Modules[moduleCode].students.push(studentName);
+        // Check if student is already enrolled.
+        for (uint8 i = 0; i < module.students.length; i++) {
+            string memory str = module.requisiteModules[i];
+            if (comString(str, studentName)) {
+                require(false, "Student is already enrolled");
+            }
+        }
+
+        // Check course
+        for (uint8 i = 0; i < module.compatibleCourses.length; i++) {
+            string memory str = module.compatibleCourses[i];
+            require(comString(str, Students[studentName].course), "Student is not in a course with this module");
+        }
+
+        // Check requisites
+        string[] memory completed = Students[studentName].completedModules;
+        for (uint8 i = 0; i < module.requisiteModules.length; i++) {
+            bool found = false;
+            for (uint8 j = 0; j < completed.length; j++) {
+                string memory str = module.requisiteModules[i];
+                if (comString(str, completed[j])) {
+                    found = true;
+                    break;
+                }
+            }
+            require(found, "Student doesn't have requisite modules completed");
+        }
     }
 
 //    /* Return array of students */

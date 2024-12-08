@@ -8,7 +8,7 @@ async function enrollStudentInModule() {
     const latestBlock = await web3.eth.getBlock('latest');
     const idx = latestBlock.number;
     const hash = latestBlock.hash;
-    const data = "{name: '${studentName}', module: '${moduleCode}'}"
+    const data = `{name: '${studentName}', module: '${moduleCode}'}`
 
     console.log("Mining block")
     console.log(idx, hash, data);

@@ -1,4 +1,4 @@
-let moduleKeys = ['CS4123'];
+let moduleKeys = [];
 
 class Module {
     constructor(code, maxCapacity, students, compatibleCourses, requisiteModules) {

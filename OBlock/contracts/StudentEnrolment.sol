@@ -159,4 +159,60 @@ contract StudentEnrolment {
         }
         return true;
     }
+
+    struct Block {
+        string blockType;
+        uint256 index;
+        uint256 timestamp;
+        bytes32 prevHash;
+        bytes32 hash;
+        uint256 nonce;
+        string data;
+    }
+
+    function getDifficulty(
+        uint256 lastBlockTimestamp,
+        uint256 currentTimestamp,
+        uint256 currentDifficulty
+    ) public pure returns (uint256) {
+        uint256 timeTaken = currentTimestamp - lastBlockTimestamp;
+
+        if (timeTaken < 10 seconds) {
+            return currentDifficulty + 1;
+        } else if (timeTaken > 20 seconds) {
+            return currentDifficulty > 0 ? currentDifficulty - 1 : 0;
+        } else {
+            return currentDifficulty;
+        }
+    }
+
+    function calcHash(
+        uint256 index,
+        uint256 timestamp,
+        bytes32 prevHash,
+        string memory data,
+        uint256 nonce
+    ) public pure returns (bytes32) {
+        return keccak256(abi.encodePacked(index, timestamp, prevHash, data, nonce));
+    }
+
+    function mineBlock(
+        uint256 index,
+        uint256 timestamp,
+        bytes32 prevHash,
+        string memory data,
+        uint256 difficulty
+    ) public pure returns (bytes32, uint256){
+        uint256 nonce = 0;
+        bytes32 hash;
+
+        while (true) {
+            hash = calcHash(index, timestamp, prevHash, data, nonce);
+            if (uint256(hash) <= difficulty) {
+                return (hash, nonce);
+            }
+            nonce++;
+        }
+        return (0, 0);
+    }
 }

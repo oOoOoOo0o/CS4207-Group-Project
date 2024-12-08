@@ -4,6 +4,8 @@ pragma solidity ^0.8.0;
 contract StudentEnrolment {
     uint16 public studentCount;
 
+    mapping(string => string) completedCourses;
+
     /* Module Struct */
     struct Module {
         string code;
@@ -42,7 +44,6 @@ contract StudentEnrolment {
         uint8 year,
         uint8 semester,
         bool paidFees,
-        string[] memory completedModules
     ) public {
         require(bytes(name).length > 0, "Student name required");
         require(bytes(course).length > 0, "Course required");
@@ -59,6 +60,10 @@ contract StudentEnrolment {
             paidFees,
             completedModules
         );
+    }
+
+    function completeCourse(string memory student, string memory course) public{
+        completedCourses(student, course);
     }
 
     /* Enroll a student */

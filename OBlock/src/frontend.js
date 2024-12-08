@@ -17,7 +17,7 @@ window.onload = function() {
 const web3 = new Web3(window.ethereum);
 
 let contract;
-const contractAddress = '0xc28883e7a12c6Bf06d5476a14Da43C58e357d304';
+const contractAddress = '0x7CFE0b61816C4CB8A5df939dcd724cC10CAE13A8';
 const contractABI = [
     {
         "anonymous": false,
@@ -60,9 +60,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "",
-                "type": "address"
+                "type": "string"
             }
         ],
         "name": "Modules",
@@ -85,9 +85,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
+                "internalType": "string",
                 "name": "",
-                "type": "address"
+                "type": "string"
             }
         ],
         "name": "Students",
@@ -162,9 +162,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "module",
-                "type": "address"
+                "internalType": "string",
+                "name": "moduleCode",
+                "type": "string"
             },
             {
                 "internalType": "string",
@@ -180,9 +180,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "module",
-                "type": "address"
+                "internalType": "string",
+                "name": "moduleCode",
+                "type": "string"
             },
             {
                 "internalType": "string",
@@ -231,9 +231,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "student",
-                "type": "address"
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
             },
             {
                 "internalType": "string",
@@ -249,9 +249,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "moduleAddress",
-                "type": "address"
+                "internalType": "string",
+                "name": "moduleCode",
+                "type": "string"
             }
         ],
         "name": "enrollStudent",
@@ -262,9 +262,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "module",
-                "type": "address"
+                "internalType": "string",
+                "name": "moduleCode",
+                "type": "string"
             }
         ],
         "name": "getEnrolledStudents",
@@ -282,9 +282,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "student",
-                "type": "address"
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
             }
         ],
         "name": "getStudent",
@@ -339,9 +339,9 @@ const contractABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "module",
-                "type": "address"
+                "internalType": "string",
+                "name": "moduleCode",
+                "type": "string"
             }
         ],
         "name": "getModule",
@@ -486,7 +486,7 @@ function populateModuleDropdown() {
 
 document.addEventListener("DOMContentLoaded", function() {
 document.getElementById("submitModuleCsv").addEventListener("click", function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const fileInput = document.getElementById("moduleCsv");
     const file = fileInput.files[0];

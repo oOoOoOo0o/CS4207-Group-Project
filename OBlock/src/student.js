@@ -1,3 +1,5 @@
+let studentKeys = ['Bayan', 'Euan']
+
 class Student {
     constructor(id, name, course, year, semester, paidFees, completedModules) {
         this.id = id;
@@ -23,22 +25,24 @@ async function createStudent(event) {
     const accounts = await web3.eth.getAccounts();
     const studentAddress = accounts[0];
 
-    await contract.methods.addStudent(name, course, year, semester, paidFees).send({ from: studentAddress });
+    await contract.methods.addStudent(name, course, year, semester, paidFees).send({from: studentAddress});
 
     for (let i = 0; i < completedModules.length; i++) {
-        await contract.methods.addCompletedModule(studentAddress, completedModules[i]).send({ from: studentAddress });
+        await contract.methods.addCompletedModule(name, completedModules[i]).send({from: studentAddress});
     }
+
+    studentKeys.push(name);
     displayStudents();
 }
 
 async function displayStudents() {
-    const accounts = await web3.eth.getAccounts();
-    const student = await getStudentBlock(accounts[0]);  // Display for the current account
-
     const studentTableBody = document.getElementById('studentTableBody');
+    studentTableBody.innerHTML = '';
 
-    let row = document.createElement('tr');
-    row.innerHTML = `
+    for (let i = 0; i < studentKeys.length; i++) {
+        const student = await contract.methods.getStudent(studentKeys[i]).call();
+        let row = document.createElement('tr');
+        row.innerHTML = `
         <tr>
             <td>${student.id}</td>
             <td>${student.name}</td>
@@ -54,20 +58,7 @@ async function displayStudents() {
                `).join('<br>')}
             </td>
         </tr>
-    `;
-
-    studentTableBody.appendChild(row);
-}
-
-async function getStudentBlock(address) {
-    const student = await contract.methods.getStudent(address).call();
-    return new Student(
-        student.id,
-        student.name,
-        student.course,
-        student.year,
-        student.semester,
-        student.paidFees,
-        student.completedModules
-    );
+        `;
+        studentTableBody.appendChild(row);
+    }
 }

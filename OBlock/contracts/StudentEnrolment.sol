@@ -21,7 +21,6 @@ contract StudentEnrolment {
         uint8 year;
         uint8 semester;
         bool paidFees;
-        string[] completedModules;
     }
 
     mapping(string => Module) public Modules;
@@ -43,7 +42,7 @@ contract StudentEnrolment {
         string memory course,
         uint8 year,
         uint8 semester,
-        bool paidFees,
+        bool paidFees
     ) public {
         require(bytes(name).length > 0, "Student name required");
         require(bytes(course).length > 0, "Course required");
@@ -57,8 +56,7 @@ contract StudentEnrolment {
             course,
             year,
             semester,
-            paidFees,
-            completedModules
+            paidFees
         );
     }
 

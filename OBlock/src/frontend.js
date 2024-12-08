@@ -10,14 +10,12 @@ window.onload = function() {
 
     displayStudents();
     displayModules();
-    populateStudentDropdown();
-    populateModuleDropdown();
 }
 
 const web3 = new Web3(window.ethereum);
 
 let contract;
-const contractAddress = '0x7CFE0b61816C4CB8A5df939dcd724cC10CAE13A8';
+const contractAddress = '0xCADcc44E70f9353DA0104abd80d22f4A97be9E37';
 const contractABI = [
     {
         "anonymous": false,
@@ -252,32 +250,17 @@ const contractABI = [
                 "internalType": "string",
                 "name": "moduleCode",
                 "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "studentName",
+                "type": "string"
             }
         ],
         "name": "enrollStudent",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "string",
-                "name": "moduleCode",
-                "type": "string"
-            }
-        ],
-        "name": "getEnrolledStudents",
-        "outputs": [
-            {
-                "internalType": "address[]",
-                "name": "",
-                "type": "address[]"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function",
-        "constant": true
     },
     {
         "inputs": [
@@ -359,9 +342,9 @@ const contractABI = [
                         "type": "uint8"
                     },
                     {
-                        "internalType": "address[]",
+                        "internalType": "string[]",
                         "name": "students",
-                        "type": "address[]"
+                        "type": "string[]"
                     },
                     {
                         "internalType": "string[]",
@@ -382,6 +365,31 @@ const contractABI = [
         "stateMutability": "view",
         "type": "function",
         "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "a",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "b",
+                "type": "string"
+            }
+        ],
+        "name": "comString",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
     }
 ];
 
@@ -391,151 +399,3 @@ async function initContract() {
 }
 
 initContract();
-
-function populateStudentDropdown() {
-    const studentSelect = document.getElementById("selectStudent");
-
-    studentSelect.innerHTML = '';
-
-    const defaultOption = document.createElement("option");
-    defaultOption.textContent = "Select a student";
-    defaultOption.value = "test";
-    studentSelect.appendChild(defaultOption);
-
-    students.forEach(student => {
-        const option = document.createElement("option");
-        option.value = student.id;
-        option.textContent = student.name;
-        studentSelect.appendChild(option);
-    });
-}
-
-
-function loadStudentsFromCSV() {
-    const fileInput = document.getElementById('studentCsv');
-    const file = fileInput.files[0];
-
-    if (!file) {
-        alert("Please select a CSV file!");
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function (event) {
-        const csvData = event.target.result;
-        const rows = csvData.split('\n').filter(row => row.trim() !== '');
-
-        for (let i = 1; i < rows.length; i++) {
-            const columns = rows[i].split(',');
-
-            if (columns.length >= 6 && columns.every(col => col.trim() !== '')) {
-                const name = columns[0].trim();
-                const course = columns[1].trim();
-                const year = parseInt(columns[2].trim()) || 1;
-                const semester = parseInt(columns[3].trim()) || 1;
-                const paidFees = columns[4].trim().toLowerCase() === 'true';
-                const completedModuleCodes = parseModuleCodes(columns[5]);
-
-                const student = new Student(name, course, year, semester, paidFees, completedModuleCodes);
-                console.log('Added student: ${name}, ${course}, Year: ${year}, Semester: ${semester} to array');
-                students.push(student);
-            } else {
-                console.warn('Skipped invalid row: ${rows[i]}');
-            }
-        }
-
-        displayStudents();
-        alert("Students loaded successfully from CSV!");
-    };
-
-    reader.onerror = function () {
-        alert("Failed to read the file!");
-    };
-
-    reader.readAsText(file);
-}
-
-function parseModuleCodes(line) {
-    let codes = line.replace('"[', '');
-    codes = codes.replace(']"', '');
-    codes = codes.trim();
-
-    if (codes === '') {
-        return [];
-    }
-    return codes.split(' ');
-}
-
-function populateModuleDropdown() {
-    const moduleSelect = document.getElementById("selectModule");
-
-    moduleSelect.innerHTML = '';
-
-    const defaultOption = document.createElement("option");
-    defaultOption.textContent = "Select a module";
-    defaultOption.value = "";
-    moduleSelect.appendChild(defaultOption);
-
-    modules.forEach(module => {
-        const option = document.createElement("option");
-        option.value = module.code;
-        option.textContent = module.code;
-        moduleSelect.appendChild(option);
-    });
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-document.getElementById("submitModuleCsv").addEventListener("click", function(event) {
-    event.preventDefault();
-
-    const fileInput = document.getElementById("moduleCsv");
-    const file = fileInput.files[0];
-    if (!file) {
-        alert("Please select a CSV file.");
-        return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        const csvData = e.target.result;
-        parseCsvAndLoadModules(csvData);
-    };
-
-    reader.onerror = function() {
-        alert("An error occurred while reading the file.");
-        return;
-    };
-
-    reader.readAsText(file);
-});
-});
-function parseCsvAndLoadModules(csvData) {
-    const rows = csvData.split("\n").map(row => row.trim()).filter(row => row);
-    const headers = rows.shift().split(",").map(header => header.trim());
-
-    rows.forEach(row => {
-        const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map(value => value.replace(/(^"|"$)/g, '').trim());
-        const moduleData = {};
-
-        headers.forEach((header, index) => {
-            moduleData[header] = values[index];
-        });
-
-        const newModule = new Module(moduleData["Code"], parseInt(moduleData["Max Capacity"]));
-
-        if (moduleData["Enrolled Students"]) {
-            newModule.enrolledStudents = moduleData["Enrolled Students"].split(",").map(name => name.trim());
-        }
-        if (moduleData["Courses"]) {
-            newModule.courses = moduleData["Courses"].split(",").map(course => course.trim());
-        }
-        if (moduleData["Requisite Modules"]) {
-            newModule.requisiteModules = moduleData["Requisite Modules"].split(",").map(requisite => requisite.trim());
-        }
-
-        modules.push(newModule);
-    });
-
-    displayModules();
-}

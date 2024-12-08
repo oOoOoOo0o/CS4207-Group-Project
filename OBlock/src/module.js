@@ -50,7 +50,7 @@ async function displayModules() {
            <td class="scrollableList">
                <div>${module.students.map(student => `
                    <div style="border-bottom: 1px solid #aaa;">
-                       <span>${student.name}</span>
+                       <span>${student}</span>
                    </div>
                `).join('')}</div>
            </td>

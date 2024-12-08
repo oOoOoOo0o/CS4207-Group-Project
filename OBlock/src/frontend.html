@@ -26,21 +26,6 @@
 			</marquee>
 		</marquee>
 
-		<div class="loadFromCsv">
-			<form name = "loadStudents">
-				<span>Load students from CSV</span> <br>
-				<input type = "file" name = "studentCsv" id = "studentCsv" placeholder="Student CSV" accept=".csv" required>
-				<br>
-				<button id = "submitStudentCsv">Submit</button>
-			</form>
-			<form name = "loadModules">
-				<span>Load modules from CSV</span> <br>
-				<input type = "file" name = "moduleCsv" id = "moduleCsv" placeholder="Module CSV" required>
-				<br>
-				<button id = "submitModuleCsv">Submit</button>
-			</form>
-		</div>
-
 		<div class="student">
 		    <h3>Create a Student</h3>
 		    <form id="studentForm">
@@ -129,12 +114,10 @@
 
 		<div class="enrolment">
 			<h3>Enroll a student in a module</h3>
-			<label for="selectStudent">Select Student:</label>
-			<select id="selectStudent" required> </select>
-			<br><br>
-			<label for="selectModule">Select Module:</label>
-			<select id="selectModule" required> </select>
-			<br><br>
+			<label for="moduleCodeEnrolment">Module Code:</label>
+			<input type="text" id="moduleCodeEnrolment" required><br><br>
+			<label for="studentNameEnrolment">Student Name:</label>
+			<input type="text" id="studentNameEnrolment" required><br><br>
 			<button onclick="enrollStudentInModule()">Enroll Student</button>
 		</div>
 	</body>

@@ -1,4 +1,4 @@
-let studentKeys = ['Bayan', 'Euan']
+let studentKeys = ['Bayan', 'Sam']
 
 class Student {
     constructor(id, name, course, year, semester, paidFees, completedModules) {

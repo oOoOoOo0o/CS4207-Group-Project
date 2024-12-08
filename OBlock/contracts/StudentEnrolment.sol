@@ -8,7 +8,7 @@ contract StudentEnrolment {
     struct Module {
         string code;
         uint8 maxCapacity;
-        address[] students; // Store students address
+        string[] students; // Store students address
         string[] compatibleCourses;
         string[] requisiteModules;
     }
@@ -36,7 +36,7 @@ contract StudentEnrolment {
         require(Modules[moduleCode].maxCapacity == 0, "Module already Exists");
 
         string[] memory emptyArray;
-        address[] memory emptyStudents;
+        string[] memory emptyStudents;
 
         Module memory module = Module(
             moduleCode,
@@ -90,29 +90,52 @@ contract StudentEnrolment {
     }
 
     /* Enroll a student */
-    function enrollStudent(string memory moduleCode) public {
+    function enrollStudent(string memory moduleCode, string memory studentName) public {
         // We can check if a module already exists by checking if its max capacity is greater than 0
         // as when a module doesnt exist its default maxCapacity will be 0 and if it does exist
         // it will be greater than 0 (since logically a module cannot exist with a capacity of 0)
-        require(Modules[moduleCode].maxCapacity > 0, "Module does not exists");
-        Module storage module = Modules[moduleCode];
-        require(module.students.length < module.maxCapacity, "Module is at max capacity");
-        
-        // Check if student is already enrolled.
-        for (uint8 i = 0; i < module.students.length; i++) {
-            require(module.students[i] != msg.sender, "Student already enrolled");
-        }
+//        require(Modules[moduleCode].maxCapacity > 0, "Module does not exist");
+//        Module storage module = Modules[moduleCode];
+//        require(module.students.length < module.maxCapacity, "Module is at max capacity");
+//
+//        // Check if student is already enrolled.
+//        for (uint8 i = 0; i < module.students.length; i++) {
+//            string memory str = module.requisiteModules[i];
+//            if (comString(str, studentName)) {
+//                require(false, "Student is already enrolled");
+//            }
+//        }
+//
+//        // Check course
+//        for (uint8 i = 0; i < module.compatibleCourses.length; i++) {
+//            string memory str = module.compatibleCourses[i];
+//            require(comString(str, Students[studentName].course), "Student is not in a course with this module");
+//        }
+//
+//        // Check requisites
+//        string[] memory completed = Students[studentName].completedModules;
+//        for (uint8 i = 0; i < module.requisiteModules.length; i++) {
+//            bool found = false;
+//            for (uint8 j = 0; j < completed.length; j++) {
+//                string memory str = module.requisiteModules[i];
+//                if (comString(str, completed[j])) {
+//                    found = true;
+//                    break;
+//                }
+//            }
+//            require(found, "Student doesn't have requisite modules completed");
+//        }
 
-        module.students.push(msg.sender);
-        emit StudentEnrolled(msg.sender, module.code);
+        require(comString(studentName, "Sam"));
+        Modules[moduleCode].students.push(studentName);
     }
 
-    /* Return array of students */
-    function getEnrolledStudents(string memory moduleCode)
-    public view returns (address[] memory) {
-        require(Modules[moduleCode].maxCapacity > 0, "Modules does not exist");
-        return Modules[moduleCode].students;
-    }
+//    /* Return array of students */
+//    function getEnrolledStudents(string memory moduleCode)
+//    public view returns (address[] memory) {
+//        require(Modules[moduleCode].maxCapacity > 0, "Modules does not exist");
+//        return Modules[moduleCode].students;
+//    }
 
     /* Get Students info */
     function getStudent(string memory name)
@@ -123,5 +146,17 @@ contract StudentEnrolment {
     function getModule(string memory moduleCode)
     public view returns (Module memory) {
         return Modules[moduleCode];
+    }
+
+    function comString(string memory a, string memory b) public view returns(bool){
+        bytes memory aB = bytes(a);
+        bytes memory bB = bytes(b);
+
+        for(uint x = 0; x < aB.length; x++){
+            if(aB[x] < bB[x] || aB[x] > bB[x]){
+                return false;
+            }
+        }
+        return true;
     }
 }

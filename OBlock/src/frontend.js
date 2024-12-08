@@ -15,8 +15,8 @@ window.onload = function() {
 const web3 = new Web3(window.ethereum);
 
 let contract;
-const contractAddress = '0xCADcc44E70f9353DA0104abd80d22f4A97be9E37';
-const contractABI = [
+const contractAddress = '0xc953bE32407D60339dEb01b33428Cc883ECF9FDb';
+const contractABI =    [
     {
         "anonymous": false,
         "inputs": [
@@ -77,8 +77,7 @@ const contractABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -122,8 +121,7 @@ const contractABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [],
@@ -136,8 +134,7 @@ const contractABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -316,8 +313,7 @@ const contractABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -363,8 +359,7 @@ const contractABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
     },
     {
         "inputs": [
@@ -388,12 +383,124 @@ const contractABI = [
             }
         ],
         "stateMutability": "view",
-        "type": "function",
-        "constant": true
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "lastBlockTimestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "currentTimestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "currentDifficulty",
+                "type": "uint256"
+            }
+        ],
+        "name": "getDifficulty",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "index",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "prevHash",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "data",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "nonce",
+                "type": "uint256"
+            }
+        ],
+        "name": "calcHash",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "index",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "prevHash",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "data",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "difficulty",
+                "type": "uint256"
+            }
+        ],
+        "name": "mineBlock",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
     }
-];
+]
 
-async function initContract() {
+
+    async function initContract() {
     contract = new web3.eth.Contract(contractABI, contractAddress);
     await window.ethereum.request({ method: 'eth_requestAccounts' });
 }

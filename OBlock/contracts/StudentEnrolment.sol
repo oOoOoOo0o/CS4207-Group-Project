@@ -11,11 +11,11 @@ contract StudentEnrolment {
 
     /* Student Struct */
     struct Student {
-        uint id;
+        uint32 id;
         string name;
         string course;
-        uint year;
-        uint semester;
+        uint8 year;
+        uint8 semester;
         bool paidFees;
         string[] completedModules;
     }
@@ -35,7 +35,7 @@ contract StudentEnrolment {
 
     /* Add a Student */
     function addStudent(
-        uint16 id,
+        uint32 id,
         string memory name,
         string memory course,
         uint8 year,

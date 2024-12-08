@@ -49,3 +49,59 @@ function populateModuleDropdown() {
         moduleSelect.appendChild(option);
     });
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+document.getElementById("submitModuleCsv").addEventListener("click", function(event) {
+    event.preventDefault(); 
+
+    const fileInput = document.getElementById("moduleCsv");
+    const file = fileInput.files[0];
+    if (!file) {
+        alert("Please select a CSV file.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const csvData = e.target.result;
+        parseCsvAndLoadModules(csvData);
+    };
+
+    reader.onerror = function() {
+        alert("An error occurred while reading the file.");
+        return;
+    };
+
+    reader.readAsText(file);
+});
+});
+function parseCsvAndLoadModules(csvData) {
+    const rows = csvData.split("\n").map(row => row.trim()).filter(row => row);
+    const headers = rows.shift().split(",").map(header => header.trim());
+
+    rows.forEach(row => {
+        const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g).map(value => value.replace(/(^"|"$)/g, '').trim());
+        const moduleData = {};
+
+        headers.forEach((header, index) => {
+            moduleData[header] = values[index];
+        });
+
+        const newModule = new Module(moduleData["Code"], parseInt(moduleData["Max Capacity"]));
+
+        if (moduleData["Enrolled Students"]) {
+            newModule.enrolledStudents = moduleData["Enrolled Students"].split(",").map(name => name.trim());
+        }
+        if (moduleData["Courses"]) {
+            newModule.courses = moduleData["Courses"].split(",").map(course => course.trim());
+        }
+        if (moduleData["Requisite Modules"]) {
+            newModule.requisiteModules = moduleData["Requisite Modules"].split(",").map(requisite => requisite.trim());
+        }
+
+        modules.push(newModule);
+    });
+
+    displayModules();
+}

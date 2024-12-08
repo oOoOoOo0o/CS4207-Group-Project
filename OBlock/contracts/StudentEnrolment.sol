@@ -4,8 +4,6 @@ pragma solidity ^0.8.0;
 contract StudentEnrolment {
     uint16 public studentCount;
 
-    mapping(string => string) completedCourses;
-
     /* Module Struct */
     struct Module {
         string code;
@@ -21,6 +19,7 @@ contract StudentEnrolment {
         uint8 year;
         uint8 semester;
         bool paidFees;
+        string[] completedModules;
     }
 
     mapping(string => Module) public Modules;
@@ -49,6 +48,7 @@ contract StudentEnrolment {
         require(Students[msg.sender].id == 0, "Student already exists");
 
         uint16 studentId = studentCount++;
+        string[] memory completedModules;
 
         Students[msg.sender] = Student(
             studentId,
@@ -56,12 +56,17 @@ contract StudentEnrolment {
             course,
             year,
             semester,
-            paidFees
+            paidFees,
+            completedModules
         );
     }
 
-    function completeCourse(string memory student, string memory course) public{
-        completedCourses[student] = course;
+    function addCompletedModule(
+        address student,
+        string memory module
+    ) public {
+        require(bytes(module).length > 0, "Module required");
+        Students[student].completedModules.push(module);
     }
 
     /* Enroll a student */
@@ -94,6 +99,4 @@ contract StudentEnrolment {
     public view returns (Student memory) {
         return Students[student];
     }
-
-
 }

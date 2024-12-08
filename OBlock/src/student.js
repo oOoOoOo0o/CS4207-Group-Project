@@ -1,19 +1,19 @@
 class Student {
-    constructor(id, name, course, year, semester, paidFees, completedModuleCodes) {
+    constructor(id, name, course, year, semester, paidFees, completedModules) {
         this.id = id;
         this.name = name;
         this.course = course;
         this.year = year;
         this.semester = semester;
         this.paidFees = paidFees;
-        this.completedModuleCodes = completedModuleCodes;
+        this.completedModules = completedModules;
     }
 }
 
 const web3 = new Web3(window.ethereum);
 
 let contract;
-const contractAddress = '0x532f65Aa1e2591531198BB7c0F22B95d88F6cAE8';
+const contractAddress = '0xd34764B28A096bC3AecCda36A456CCcF67c2E0D6';
 const contractABI = [
     {
         "anonymous": false,
@@ -181,14 +181,27 @@ const contractABI = [
                 "internalType": "bool",
                 "name": "paidFees",
                 "type": "bool"
-            },
-            {
-                "internalType": "string[]",
-                "name": "completedModules",
-                "type": "string[]"
             }
         ],
         "name": "addStudent",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "student",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "module",
+                "type": "string"
+            }
+        ],
+        "name": "addCompletedModule",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
@@ -299,15 +312,20 @@ async function createStudent(event) {
     const year = parseInt(document.getElementById('studentYear').value) || 1;
     const semester = parseInt(document.getElementById('studentSemester').value) || 1;
     const paidFees = document.getElementById('studentPaidFees').value === 'true';
+    const completedModules = document.getElementById('studentCompletedModules').value.split(',');
+    console.log(completedModules);
 
     const accounts = await web3.eth.getAccounts();
     const studentAddress = accounts[0];
 
-    try {
-        await contract.methods.addStudent(name, course, year, semester, paidFees, ["test","work"]).send({ from: studentAddress });
-        console.log("Student added successfully");
-    } catch (error) {
-        console.error("Error while adding student:", error);
+    console.log('pooo')
+
+    await contract.methods.addStudent(name, course, year, semester, paidFees).send({ from: studentAddress });
+
+    console.log('shit')
+    for (let i = 0; i < completedModules.length; i++) {
+        console.log(completedModules[i]);
+        await contract.methods.addCompletedModule(studentAddress, completedModules[i]).send({ from: studentAddress });
     }
     displayStudents();
 }
@@ -326,12 +344,12 @@ async function displayStudents() {
             <td>${student.semester}</td>
             <td>${student.paidFees}</td>
             <td class="scrollableList">
-                ${student.completedModuleCodes}
+                ${student.completedModules}
             </td>
         </tr>
     `;
     console.log(student)
-    console.log(student.completedModuleCodes)
+    console.log(student.completedModules)
 }
 
 async function getStudentBlock(address) {
@@ -343,6 +361,6 @@ async function getStudentBlock(address) {
         student.year,
         student.semester,
         student.paidFees,
-        student.completedModuleCodes
+        student.completedModules
     );
 }

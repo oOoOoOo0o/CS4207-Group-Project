@@ -1,6 +1,3 @@
-let students = [];
-let modules = [];
-
 window.onload = function() {
     // Event listeners
     const studentCreationForm = document.getElementById('studentForm');
@@ -15,7 +12,7 @@ window.onload = function() {
 const web3 = new Web3(window.ethereum);
 
 let contract;
-const contractAddress = '0x548d53e01CD8f6C0A3EA70581e45B4E977bBBD22';
+const contractAddress = '0xf9D50ACA039354A3eF3e6FDad6f8c450e90e048f';
 const contractABI = [
         {
             "anonymous": false,

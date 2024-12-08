@@ -1,14 +1,14 @@
 class Student {
     static studentCount = students.length;
 
-    constructor(name, course, year = 1, semester = 1) {
+    constructor(name, course, year = 1, semester = 1, paidFees = false, completedModuleCodes = []) {
         this.id = Student.studentCount++;
         this.name = name;
         this.course = course;
         this.year = year;
         this.semester = semester;
-        this.paidFees = false; // Default value
-        this.completedModuleCodes = [];
+        this.paidFees = paidFees;
+        this.completedModuleCodes = completedModuleCodes;
     }
 }
 

@@ -9,6 +9,8 @@ contract StudentEnrolment {
         string code;
         uint8 maxCapacity;
         address[] students; // Store students address
+        string[] compatibleCourses;
+        string[] requisiteModules;
     }
 
     /* Student Struct */
@@ -22,17 +24,37 @@ contract StudentEnrolment {
         string[] completedModules;
     }
 
-    mapping(string => Module) public Modules;
+    mapping(address => Module) public Modules;
     mapping(address => Student) public Students;
 
     event StudentEnrolled(address student, string module);
-    event ModuleCreated(string moduleCode, uint8 maxCapacity);
+    event ModuleCreated(address module, uint8 maxCapacity);
 
     /* Add a Module */
     function createModule(string memory moduleCode, uint8 maxCapacity) public {
         require(bytes(moduleCode).length > 0, "Module Code required");
-        require(Modules[moduleCode].maxCapacity == 0, "Module already Exists");
-        emit ModuleCreated(moduleCode, maxCapacity);
+        require(Modules[msg.sender].maxCapacity == 0, "Module already Exists");
+
+        string[] memory emptyArray;
+        address[] memory emptyStudents;
+
+        Modules[msg.sender] = Module(
+            moduleCode,
+            maxCapacity,
+            emptyStudents,
+            emptyArray,
+            emptyArray
+        );
+    }
+
+    function addCompatibleCourse(address module, string memory course) public {
+        require(bytes(course).length > 0, "Course name required");
+        Modules[module].compatibleCourses.push(course);
+    }
+
+    function addRequisiteModule(address module, string memory requisite) public {
+        require(bytes(requisite).length > 0, "Course name required");
+        Modules[module].requisiteModules.push(requisite);
     }
 
     /* Add a Student */
@@ -61,21 +83,18 @@ contract StudentEnrolment {
         );
     }
 
-    function addCompletedModule(
-        address student,
-        string memory module
-    ) public {
+    function addCompletedModule(address student, string memory module) public {
         require(bytes(module).length > 0, "Module required");
         Students[student].completedModules.push(module);
     }
 
     /* Enroll a student */
-    function enrollStudent(string memory moduleCode) public {
+    function enrollStudent(address moduleAddress) public {
         // We can check if a module already exists by checking if its max capacity is greater than 0
         // as when a module doesnt exist its default maxCapacity will be 0 and if it does exist
         // it will be greater than 0 (since logically a module cannot exist with a capacity of 0)
-        require(Modules[moduleCode].maxCapacity > 0, "Module does not exists");
-        Module storage module = Modules[moduleCode];
+        require(Modules[moduleAddress].maxCapacity > 0, "Module does not exists");
+        Module storage module = Modules[moduleAddress];
         require(module.students.length < module.maxCapacity, "Module is at max capacity");
         
         // Check if student is already enrolled.
@@ -84,19 +103,24 @@ contract StudentEnrolment {
         }
 
         module.students.push(msg.sender);
-        emit StudentEnrolled(msg.sender, moduleCode);
+        emit StudentEnrolled(msg.sender, module.code);
     }
 
     /* Return array of students */
-    function getEnrolledStudents(string memory moduleCode) 
+    function getEnrolledStudents(address module)
     public view returns (address[] memory) {
-        require(Modules[moduleCode].maxCapacity > 0, "Modules does not exist");
-        return Modules[moduleCode].students;
+        require(Modules[module].maxCapacity > 0, "Modules does not exist");
+        return Modules[module].students;
     }
 
     /* Get Students info */
     function getStudent(address student)
     public view returns (Student memory) {
         return Students[student];
+    }
+
+    function getModule(address module)
+    public view returns (Module memory) {
+        return Modules[module];
     }
 }

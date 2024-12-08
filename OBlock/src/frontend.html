@@ -80,7 +80,6 @@
 		    			<th>Semester</th>
 						<th>Paid fees?</th>
 						<th>Completed Modules</th>
-		    			<th id="deleteStudent"></th>
 		    		</tr>
 		    		</thead>
 		    		<tbody id="studentTableBody">
@@ -97,7 +96,13 @@
 		    	<input type="text" id="moduleCode" required><br><br>
 
 		    	<label for="moduleCapacity">Module Capacity:</label>
-		    	<input type="text" id="moduleCapacity" required><br><br>
+		    	<input type="number" id="moduleCapacity" required><br><br>
+
+				<label for="compatibleCourses">Compatible Courses:</label>
+				<input type="text" id="compatibleCourses" required><br><br>
+
+				<label for="requisites">Requisite Modules:</label>
+				<input type="text" id="requisites" required><br><br>
 
 		    	<button type="submit">Create Module</button>
 		    </form>
@@ -113,7 +118,6 @@
 		    			<th style="width: 20%">Enrolled Students</th>
 		    			<th style="width: 20%">Compatible Courses</th>
 		    			<th style="width: 20%">Requisite Modules</th>
-		    			<th id="deleteModule"></th>
 		    		</tr>
 		    		</thead>
 		    		<tbody id="moduleTableBody">

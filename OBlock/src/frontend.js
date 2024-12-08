@@ -14,6 +14,384 @@ window.onload = function() {
     populateModuleDropdown();
 }
 
+const web3 = new Web3(window.ethereum);
+
+let contract;
+const contractAddress = '0xc28883e7a12c6Bf06d5476a14Da43C58e357d304';
+const contractABI = [
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "module",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint8",
+                "name": "maxCapacity",
+                "type": "uint8"
+            }
+        ],
+        "name": "ModuleCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "student",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "module",
+                "type": "string"
+            }
+        ],
+        "name": "StudentEnrolled",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "Modules",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "code",
+                "type": "string"
+            },
+            {
+                "internalType": "uint8",
+                "name": "maxCapacity",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "Students",
+        "outputs": [
+            {
+                "internalType": "uint32",
+                "name": "id",
+                "type": "uint32"
+            },
+            {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "course",
+                "type": "string"
+            },
+            {
+                "internalType": "uint8",
+                "name": "year",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "semester",
+                "type": "uint8"
+            },
+            {
+                "internalType": "bool",
+                "name": "paidFees",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [],
+        "name": "studentCount",
+        "outputs": [
+            {
+                "internalType": "uint16",
+                "name": "",
+                "type": "uint16"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "moduleCode",
+                "type": "string"
+            },
+            {
+                "internalType": "uint8",
+                "name": "maxCapacity",
+                "type": "uint8"
+            }
+        ],
+        "name": "createModule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "module",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "course",
+                "type": "string"
+            }
+        ],
+        "name": "addCompatibleCourse",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "module",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "requisite",
+                "type": "string"
+            }
+        ],
+        "name": "addRequisiteModule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "course",
+                "type": "string"
+            },
+            {
+                "internalType": "uint8",
+                "name": "year",
+                "type": "uint8"
+            },
+            {
+                "internalType": "uint8",
+                "name": "semester",
+                "type": "uint8"
+            },
+            {
+                "internalType": "bool",
+                "name": "paidFees",
+                "type": "bool"
+            }
+        ],
+        "name": "addStudent",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "student",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "module",
+                "type": "string"
+            }
+        ],
+        "name": "addCompletedModule",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "moduleAddress",
+                "type": "address"
+            }
+        ],
+        "name": "enrollStudent",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "module",
+                "type": "address"
+            }
+        ],
+        "name": "getEnrolledStudents",
+        "outputs": [
+            {
+                "internalType": "address[]",
+                "name": "",
+                "type": "address[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "student",
+                "type": "address"
+            }
+        ],
+        "name": "getStudent",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint32",
+                        "name": "id",
+                        "type": "uint32"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "course",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "year",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "semester",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "paidFees",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "string[]",
+                        "name": "completedModules",
+                        "type": "string[]"
+                    }
+                ],
+                "internalType": "struct StudentEnrolment.Student",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "module",
+                "type": "address"
+            }
+        ],
+        "name": "getModule",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "string",
+                        "name": "code",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "maxCapacity",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "address[]",
+                        "name": "students",
+                        "type": "address[]"
+                    },
+                    {
+                        "internalType": "string[]",
+                        "name": "compatibleCourses",
+                        "type": "string[]"
+                    },
+                    {
+                        "internalType": "string[]",
+                        "name": "requisiteModules",
+                        "type": "string[]"
+                    }
+                ],
+                "internalType": "struct StudentEnrolment.Module",
+                "name": "",
+                "type": "tuple"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function",
+        "constant": true
+    }
+];
+
+async function initContract() {
+    contract = new web3.eth.Contract(contractABI, contractAddress);
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+}
+
+initContract();
+
 function populateStudentDropdown() {
     const studentSelect = document.getElementById("selectStudent");
 

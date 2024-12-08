@@ -5,6 +5,7 @@
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 		<link rel="icon" href = "../assets/crypto.png" type= "image/png"/>
 		<link rel="stylesheet" href="./frontend.css">
+		<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 		<script src="./frontend.js"></script>
 		<script src='./getinput.js'></script>
 		<script src="./student.js"></script>
@@ -25,21 +26,6 @@
 			</marquee>
 		</marquee>
 
-		<div class="loadFromCsv">
-			<form name = "loadStudents">
-				<span>Load students from CSV</span> <br>
-				<input type = "file" name = "studentCsv" id = "studentCsv" placeholder="Student CSV" accept=".csv" required>
-				<br>
-				<button id = "submitStudentCsv">Submit</button>
-			</form>
-			<form name = "loadModules">
-				<span>Load modules from CSV</span> <br>
-				<input type = "file" name = "moduleCsv" id = "moduleCsv" placeholder="Module CSV" required>
-				<br>
-				<button id = "submitModuleCsv">Submit</button>
-			</form>
-		</div>
-
 		<div class="student">
 		    <h3>Create a Student</h3>
 		    <form id="studentForm">
@@ -54,6 +40,15 @@
 
 		    	<label for="studentSemester">Semester:</label>
 		    	<input type="number" id="studentSemester" min="1" value="1"><br><br>
+
+				<label for="studentPaidFees">Paid fees?</label>
+				<select id="studentPaidFees" required>
+					<option value="true">Yes</option>
+					<option value="false">No</option>
+				</select> <br><br>
+
+				<label for="studentCompletedModules">Completed Modules:</label>
+				<input type="text" id="studentCompletedModules" required><br><br>
 
 		    	<button type="submit">Create Student</button>
 		    </form>
@@ -70,7 +65,6 @@
 		    			<th>Semester</th>
 						<th>Paid fees?</th>
 						<th>Completed Modules</th>
-		    			<th id="deleteStudent"></th>
 		    		</tr>
 		    		</thead>
 		    		<tbody id="studentTableBody">
@@ -87,7 +81,13 @@
 		    	<input type="text" id="moduleCode" required><br><br>
 
 		    	<label for="moduleCapacity">Module Capacity:</label>
-		    	<input type="text" id="moduleCapacity" required><br><br>
+		    	<input type="number" id="moduleCapacity" required><br><br>
+
+				<label for="compatibleCourses">Compatible Courses:</label>
+				<input type="text" id="compatibleCourses" required><br><br>
+
+				<label for="requisites">Requisite Modules:</label>
+				<input type="text" id="requisites" required><br><br>
 
 		    	<button type="submit">Create Module</button>
 		    </form>
@@ -103,7 +103,6 @@
 		    			<th style="width: 20%">Enrolled Students</th>
 		    			<th style="width: 20%">Compatible Courses</th>
 		    			<th style="width: 20%">Requisite Modules</th>
-		    			<th id="deleteModule"></th>
 		    		</tr>
 		    		</thead>
 		    		<tbody id="moduleTableBody">
@@ -115,12 +114,10 @@
 
 		<div class="enrolment">
 			<h3>Enroll a student in a module</h3>
-			<label for="selectStudent">Select Student:</label>
-			<select id="selectStudent" required> </select>
-			<br><br>
-			<label for="selectModule">Select Module:</label>
-			<select id="selectModule" required> </select>
-			<br><br>
+			<label for="moduleCodeEnrolment">Module Code:</label>
+			<input type="text" id="moduleCodeEnrolment" required><br><br>
+			<label for="studentNameEnrolment">Student Name:</label>
+			<input type="text" id="studentNameEnrolment" required><br><br>
 			<button onclick="enrollStudentInModule()">Enroll Student</button>
 		</div>
 	</body>

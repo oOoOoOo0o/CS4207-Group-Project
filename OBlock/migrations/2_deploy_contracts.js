@@ -1,4 +1,4 @@
-const EnrollmentSystemStorage = artifacts.require('EnrollmentSystemStorage');
+const StudentEnrolment = artifacts.require('StudentEnrolment');
 module.exports = function(deployer) {
-    deployer.deploy(EnrollmentSystemStorage, 'test');
+    deployer.deploy(StudentEnrolment, 'test');
 }

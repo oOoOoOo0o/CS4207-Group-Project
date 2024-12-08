@@ -1,140 +1,64 @@
-class Student {
-    static studentCount = students.length;
+let studentKeys = ['Bayan', 'Sam']
 
-    constructor(name, course, year = 1, semester = 1, paidFees = false, completedModuleCodes = []) {
-        this.id = Student.studentCount++;
+class Student {
+    constructor(id, name, course, year, semester, paidFees, completedModules) {
+        this.id = id;
         this.name = name;
         this.course = course;
         this.year = year;
         this.semester = semester;
         this.paidFees = paidFees;
-        this.completedModuleCodes = completedModuleCodes;
+        this.completedModules = completedModules;
     }
 }
 
-function createStudent(event) {
+async function createStudent(event) {
     event.preventDefault();
 
     const name = document.getElementById('studentName').value;
     const course = document.getElementById('studentCourse').value;
     const year = parseInt(document.getElementById('studentYear').value) || 1;
     const semester = parseInt(document.getElementById('studentSemester').value) || 1;
+    const paidFees = document.getElementById('studentPaidFees').value === 'true';
+    const completedModules = document.getElementById('studentCompletedModules').value.split(',');
 
-    const student = new Student(name, course, year, semester);
+    const accounts = await web3.eth.getAccounts();
+    const studentAddress = accounts[0];
 
-    students.push(student);
-    displayStudents();
-}
+    await contract.methods.addStudent(name, course, year, semester, paidFees).send({from: studentAddress});
 
-function removeStudent(id) {
-    students = students.filter(student => student.id !== id);
-    displayStudents();
-}
-
-function updateYear(id, newYear) {
-    const student = students.find(student => student.id === id);
-    if (student) {
-        student.year = newYear;
-    }
-    displayStudents();
-}
-
-function updateSemester(id, newSem) {
-    const student = students.find(student => student.id === id);
-    if (student) {
-        student.semester = newSem;
-    }
-    displayStudents();
-}
-
-function togglePaidFees(id) {
-    const student = students.find(student => student.id === id);
-    if (student) {
-        student.paidFees = !student.paidFees;
-    }
-    displayStudents();
-}
-
-function addCompletedModule(id) {
-    const code = document.getElementById('completedModuleToAdd').value
-    if (code.trim() === '') {
-        alert('Module code must not be empty');
-        return;
+    for (let i = 0; i < completedModules.length; i++) {
+        await contract.methods.addCompletedModule(name, completedModules[i]).send({from: studentAddress});
     }
 
-    const student = students.find(student => student.id === id);
-    if (student) {
-        const module = modules.find(module => module.code === code);
-        if (module) {
-            student.completedModuleCodes.push(module.code);
-        } else {
-            alert(`Module not found`);
-            return;
-        }
-    }
+    studentKeys.push(name);
     displayStudents();
 }
 
-function removeCompletedModule(id, code) {
-    const student = students.find(student => student.id === id);
-    if (student) {
-        student.completedModuleCodes = student.completedModuleCodes.filter(m => m !== code);
-    }
-    displayStudents();
-}
-
-function displayStudents() {
+async function displayStudents() {
     const studentTableBody = document.getElementById('studentTableBody');
     studentTableBody.innerHTML = '';
 
-    if (students.length === 0) {
-        studentTableBody.innerHTML = '<tr><td colspan="6">No students created yet.</td></tr>';
-        return;
-    }
-
-    students.forEach(student => {
+    for (let i = 0; i < studentKeys.length; i++) {
+        const student = await contract.methods.getStudent(studentKeys[i]).call();
         let row = document.createElement('tr');
         row.innerHTML = `
-                    <td>${student.id}</td>
-                    <td>${student.name}</td>
-                    <td>${student.course}</td>
-                    <td>${student.year}</td>
-                    <td>${student.semester}</td>
-                    <td>${student.paidFees}</td>
-                    <td class="scrollableList">
-                        <div class="scrollableContent">${student.completedModuleCodes.map(code => `
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #aaa;">
-                                <span>${code}</span>
-                                <button onclick="removeCompletedModule(${student.id}, '${code}')">Remove</button>
-                            </div>
-                        `).join('<br>')}
-                        </div>
-                    </td>
-                    <td><button class="deleteButton" onclick="removeStudent(${student.id})">Delete</button></td>
-                `;
-        studentTableBody.appendChild(row);
-
-        row = document.createElement('tr');
-        row.innerHTML = `
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-                Edit year
-                <input type="number" max="4" value="${student.year}" onchange="updateYear(${student.id}, this.value)" />
+        <tr>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.course}</td>
+            <td>${student.year}</td>
+            <td>${student.semester}</td>
+            <td>${student.paidFees}</td>
+            <td class="scrollableList">
+                ${student.completedModules.map(module => `
+                   <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #aaa;">
+                       <span>${module}</span>
+                   </div>
+               `).join('<br>')}
             </td>
-            <td>
-                Edit semester
-                <input type="number" max="2" value="${student.semester}" onchange="updateSemester(${student.id}, this.value)" />
-            </td>
-            <td><button onclick="togglePaidFees(${student.id})">Toggle paid fees</button></td>
-            <td>
-                <button onclick="addCompletedModule(${student.id})">Add module</button>
-                <input type="text" id="completedModuleToAdd"/>
-            </td>
+        </tr>
         `;
         studentTableBody.appendChild(row);
-    });
-
-    populateStudentDropdown();
+    }
 }

@@ -61,7 +61,7 @@ contract StudentEnrolment {
     }
 
     function completeCourse(string memory student, string memory course) public{
-        completedCourses(student, course);
+        completedCourses[student] = course;
     }
 
     /* Enroll a student */

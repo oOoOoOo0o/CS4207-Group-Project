@@ -37,24 +37,26 @@ contract StudentEnrolment {
 
     /* Add a Student */
     function addStudent(
-        uint16 id,
         string memory name,
         string memory course,
         uint8 year,
-        uint8 semester
+        uint8 semester,
+        bool paidFees,
+        string[] memory completedModules
     ) public {
         require(bytes(name).length > 0, "Student name required");
         require(bytes(course).length > 0, "Course required");
         require(Students[msg.sender].id == 0, "Student already exists");
 
-        string[] memory completedModules; // New students havent completed any modules
+        uint16 studentId = studentCount++;
+
         Students[msg.sender] = Student(
-            id,
+            studentId,
             name,
             course,
             year,
             semester,
-            false,
+            paidFees,
             completedModules
         );
     }

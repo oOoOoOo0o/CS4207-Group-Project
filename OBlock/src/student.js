@@ -89,9 +89,9 @@ const contractABI = [
         "name": "Students",
         "outputs": [
             {
-                "internalType": "uint256",
+                "internalType": "uint32",
                 "name": "id",
-                "type": "uint256"
+                "type": "uint32"
             },
             {
                 "internalType": "string",
@@ -104,14 +104,14 @@ const contractABI = [
                 "type": "string"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint8",
                 "name": "year",
-                "type": "uint256"
+                "type": "uint8"
             },
             {
-                "internalType": "uint256",
+                "internalType": "uint8",
                 "name": "semester",
-                "type": "uint256"
+                "type": "uint8"
             },
             {
                 "internalType": "bool",
@@ -239,9 +239,9 @@ const contractABI = [
             {
                 "components": [
                     {
-                        "internalType": "uint256",
+                        "internalType": "uint32",
                         "name": "id",
-                        "type": "uint256"
+                        "type": "uint32"
                     },
                     {
                         "internalType": "string",
@@ -254,14 +254,14 @@ const contractABI = [
                         "type": "string"
                     },
                     {
-                        "internalType": "uint256",
+                        "internalType": "uint8",
                         "name": "year",
-                        "type": "uint256"
+                        "type": "uint8"
                     },
                     {
-                        "internalType": "uint256",
+                        "internalType": "uint8",
                         "name": "semester",
-                        "type": "uint256"
+                        "type": "uint8"
                     },
                     {
                         "internalType": "bool",
@@ -299,12 +299,9 @@ async function createStudent(event) {
     const year = parseInt(document.getElementById('studentYear').value) || 1;
     const semester = parseInt(document.getElementById('studentSemester').value) || 1;
     const paidFees = document.getElementById('studentPaidFees').value === 'true';
-    const completedModules = ["CS101", "MATH202", "PHYS303"]
 
     const accounts = await web3.eth.getAccounts();
     const studentAddress = accounts[0];
-
-    console.log(completedModules)
 
     try {
         await contract.methods.addStudent(name, course, year, semester, paidFees, ["test","work"]).send({ from: studentAddress });

@@ -1,0 +1,18 @@
+{
+  "name": "oblock",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "main": "src",
+  "dependencies": {
+    "truffle": "^5.11.5",
+    "forever": "^4.0.3",
+    "express": "^4.21.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "forever start src/server.js && echo Started server on http://localhost:3000 ",
+    "shutdown": "forever stop src/server.js"
+  }
+}

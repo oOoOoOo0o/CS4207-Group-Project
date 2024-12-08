@@ -70,6 +70,7 @@ document.getElementById("submitModuleCsv").addEventListener("click", function(ev
 
     reader.onerror = function() {
         alert("An error occurred while reading the file.");
+        return;
     };
 
     reader.readAsText(file);
